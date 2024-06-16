@@ -37,18 +37,18 @@ class AccessService {
         if (newShop) {
             // created privateKey and publicKey
 
-            // const { privateKey, publicKey } = crypto.generateKeyPairSync(
-            //     "rsa",
-            //     {
-            //         modulusLength: 4096,
-            //         publicKeyEncoding: { type: "spki", format: "pem" },
-            //         privateKeyEncoding: { type: "pkcs8", format: "pem" },
-            //     }
-            // );
+            const { privateKey, publicKey } = crypto.generateKeyPairSync(
+                "rsa",
+                {
+                    modulusLength: 4096,
+                    publicKeyEncoding: { type: "spki", format: "pem" },
+                    privateKeyEncoding: { type: "pkcs8", format: "pem" },
+                }
+            );
             // const publicKeyObject = crypto.createPublicKey(publicKeyString);
 
-            const privateKey = crypto.randomBytes(64).toString("hex");
-            const publicKey = crypto.randomBytes(64).toString("hex");
+            // const privateKey = crypto.randomBytes(64).toString("hex");
+            // const publicKey = crypto.randomBytes(64).toString("hex");
 
             console.log({ privateKey, publicKey }); // save collection keyStore
 
