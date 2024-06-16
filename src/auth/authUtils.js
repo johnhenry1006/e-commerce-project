@@ -24,12 +24,12 @@ const createTokenPair = async (payload, publicKey, privateKey) => {
 
         return { accessToken, refreshToken };
     } catch (error) {
-        return {
-            code: "xxx",
-            message: error.message,
-            status: "error",
-        };
+        // return {
+        //     code: "xxx",
+        //     message: error.message,
+        //     status: "error",
+        // };
     }
 };
 
-module.exports = createTokenPair;
+module.exports = { createTokenPair };

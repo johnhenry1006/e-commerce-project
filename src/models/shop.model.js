@@ -2,7 +2,7 @@
 
 // key [!dmbg] install by Mongo Snippets for Node-js
 
-const { model, Schema, Types } = require("mongoose"); // Erase if already required
+const { model, Schema } = require("mongoose"); // Erase if already required
 
 const DOCUMENT_NAME = "shop";
 const COLLECTION_NAME = "shops";

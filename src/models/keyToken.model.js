@@ -2,23 +2,30 @@
 
 // key [!dmbg] install by Mongo Snippets for Node-js
 
-const { model, Schema, Types } = require("mongoose"); // Erase if already required
+const { model, Schema } = require("mongoose"); // Erase if already required
 
-const DOCUMENT_NAME = "token";
-const COLLECTION_NAME = "tokens";
+const DOCUMENT_NAME = "Key";
+const COLLECTION_NAME = "Keys";
 
 // Declare the Schema of the Mongo model
 const keyTokenSchema = new Schema(
     {
         user: {
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: "Shop",
+        },
+        privateKey: {
             type: String,
             required: true,
-            trim: true,
         },
         publicKey: {
             type: String,
             required: true,
-            trim: true,
+        },
+        refreshToken: {
+            type: Array,
+            default: [],
         },
     },
     {
