@@ -12,6 +12,11 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
 
+// parse JSON bodies
+app.use(express.json());
+// parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
+
 // init db
 require("./dbs/init.mongodb");
 
