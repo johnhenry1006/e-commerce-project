@@ -4,6 +4,31 @@ const AccessService = require("../services/access.service");
 
 const { OK, CREATED, SuccessResponse } = require("../core/success.response");
 class AccessController {
+    /**
+     * Handles the refresh token request.
+     *
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise<void>} - A promise that resolves when the response is sent.
+     */
+    handlerRefreshToken = async (req, res, next) => {
+        new SuccessResponse({
+            message: "Refresh token OK!",
+            metadata: await AccessService.handlerRefreshToken(
+                req.body.refreshToken
+            ),
+        }).send(res);
+    };
+
+    /**
+     * Logout user.
+     *
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise<void>} - A promise that resolves when the logout process is complete.
+     */
     logout = async (req, res, next) => {
         new SuccessResponse({
             message: "Logout OK!",

@@ -4,6 +4,9 @@ const { API_KEY } = require("../utils/headerKeys");
 
 const { findById } = require("../services/apiKey.service");
 
+/**
+ * Middleware to check the API key in the request headers.
+ */
 const apiKey = async (req, res, next) => {
     try {
         const key = req.headers[API_KEY]?.toString();
@@ -31,6 +34,9 @@ const apiKey = async (req, res, next) => {
     }
 };
 
+/**
+ * Middleware function to check if the user has the required permission.
+ */
 const permission = (permission) => {
     return (req, res, next) => {
         if (!req.objKey.permissions) {

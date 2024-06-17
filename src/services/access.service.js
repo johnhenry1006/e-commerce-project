@@ -6,7 +6,7 @@ const crypto = require("node:crypto");
 const KeyTokenService = require("./keyToken.service");
 
 const shopModel = require("../models/shop.model");
-const { createTokenPair } = require("../auth/authUtils");
+const { createTokenPair, verifyJWT } = require("../auth/authUtils");
 const { getInfoData } = require("../utils");
 const {
     BadRequestError,
@@ -22,6 +22,58 @@ const RoleShop = {
     ADMIN: "ADMIN",
 };
 class AccessService {
+    static handlerRefreshToken = async (refreshToken) => {
+        const foundToken = await KeyTokenService.findByRefreshTokenUsed(
+            refreshToken
+        );
+        if (foundToken) {
+            // decode token and checking token
+            const { userId, email } = await verifyJWT(
+                refreshToken,
+                foundToken.privateKey
+            );
+            console.log("userId::", userId, "email::", email);
+
+            // remove token
+            await KeyTokenService.deleteKeyById(userId);
+            throw new ForbiddenError("Error: Token expired!");
+        }
+
+        const holderToken = await KeyTokenService.findByRefreshToken(
+            refreshToken
+        );
+        if (!holderToken) throw new AuthFailureError("Shop not registered 1!");
+
+        // verify token
+        const { userId, email } = await verifyJWT(
+            refreshToken,
+            holderToken.privateKey
+        );
+        const foundShop = await findByEmail({ email });
+        if (!foundShop) throw new AuthFailureError("Shop not registered 2!");
+
+        const tokens = await createTokenPair(
+            { userId, email },
+            holderToken.publicKey,
+            holderToken.privateKey
+        );
+
+        // update token
+        await holderToken.updateOne({
+            $set: {
+                refreshToken: tokens.refreshToken,
+            },
+            $addToSet: {
+                refreshTokensUsed: refreshToken, // add token used
+            },
+        });
+
+        return {
+            shop: { userId, email },
+            tokens,
+        };
+    };
+
     /**
      * Logs out the user by removing the key from the key store.
      * @param {Object} keyStore - The key store object.

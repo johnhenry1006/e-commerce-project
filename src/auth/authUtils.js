@@ -8,6 +8,9 @@ const { CLIENT_ID, AUTHORIZATION } = require("../utils/headerKeys");
 const { AuthFailureError, NotFoundError } = require("../core/error.response");
 const { findByUserId } = require("../services/keyToken.service");
 
+/**
+ * Creates a token pair consisting of an access token and a refresh token.
+ */
 const createTokenPair = async (payload, publicKey, privateKey) => {
     try {
         const accessToken = await JWT.sign(payload, privateKey, {
@@ -70,4 +73,11 @@ const authentication = asyncHandler(async (req, res, next) => {
     }
 });
 
-module.exports = { createTokenPair, authentication };
+/**
+ * Verifies a JSON Web Token (JWT) using the provided key secret.
+ */
+const verifyJWT = async (token, keySecret) => {
+    return await JWT.verify(token, keySecret);
+};
+
+module.exports = { createTokenPair, authentication, verifyJWT };
