@@ -22,6 +22,9 @@ const RoleShop = {
     ADMIN: "ADMIN",
 };
 class AccessService {
+    /**
+     * Handles the refresh token request.
+     */
     static handlerRefreshToken = async (refreshToken) => {
         const foundToken = await KeyTokenService.findByRefreshTokenUsed(
             refreshToken
