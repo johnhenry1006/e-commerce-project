@@ -4,6 +4,13 @@ const AccessService = require("../services/access.service");
 
 const { OK, CREATED, SuccessResponse } = require("../core/success.response");
 class AccessController {
+    logout = async (req, res, next) => {
+        new SuccessResponse({
+            message: "Logout OK!",
+            metadata: await AccessService.logout(req.keyStore),
+        }).send(res);
+    };
+
     /**
      * Handles the login functionality.
      *
@@ -13,10 +20,8 @@ class AccessController {
      * @returns {Promise<void>} - A promise that resolves when the login process is complete.
      */
     login = async (req, res, next) => {
-        const metadata = await AccessService.login(req.body);
-
         new SuccessResponse({
-            metadata,
+            metadata: await AccessService.login(req.body),
         }).send(res);
     };
 
@@ -29,11 +34,9 @@ class AccessController {
      * @returns {Promise<void>} - A promise that resolves when the sign up process is completed.
      */
     signUp = async (req, res, next) => {
-        const metadata = await AccessService.signUp(req.body);
-
         new CREATED({
             message: "Registered OK!",
-            metadata,
+            metadata: await AccessService.signUp(req.body),
             options: { limit: 10 },
         }).send(res);
     };

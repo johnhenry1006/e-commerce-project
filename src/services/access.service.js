@@ -23,6 +23,19 @@ const RoleShop = {
 };
 class AccessService {
     /**
+     * Logs out the user by removing the key from the key store.
+     * @param {Object} keyStore - The key store object.
+     * @returns {Promise} A promise that resolves with the result of removing the key.
+     */
+    static logout = async (keyStore) => {
+        const delKey = await KeyTokenService.removeKeyById(keyStore._id);
+
+        console.log("delKey::", delKey);
+
+        return delKey;
+    };
+
+    /**
      * 1 - Check email in dbs
      * 2 - match password
      * 3 - create AccessToken, RefreshToken and save to dbs

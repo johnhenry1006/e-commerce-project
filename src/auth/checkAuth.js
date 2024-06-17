@@ -1,15 +1,12 @@
 "use strict";
 
-const HEADER = {
-    API_KEY: "x-api-key",
-    AUTHORIZATION: "authorization",
-};
+const { API_KEY } = require("../utils/headerKeys");
 
 const { findById } = require("../services/apiKey.service");
 
 const apiKey = async (req, res, next) => {
     try {
-        const key = req.headers[HEADER.API_KEY]?.toString();
+        const key = req.headers[API_KEY]?.toString();
         if (!key) {
             return res.status(403).json({
                 message: "Forbidden error",
@@ -54,10 +51,4 @@ const permission = (permission) => {
     };
 };
 
-const asyncHandler = (fn) => {
-    return (req, res, next) => {
-        fn(req, res, next).catch(next);
-    };
-};
-
-module.exports = { apiKey, permission, asyncHandler };
+module.exports = { apiKey, permission };
