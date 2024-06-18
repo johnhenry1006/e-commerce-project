@@ -39,3 +39,25 @@ authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZlYzM2MjQz
 {
     "refreshToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZlYzM2MjQzMWU1MjA4ZGFkNzM2MzEiLCJlbWFpbCI6InRlczIxM3QxQGdtYWlsLmNvbSIsImlhdCI6MTcxODYzOTAzMSwiZXhwIjoxNzE5MjQzODMxfQ.Rsf60zi2-dl_N1IDRx4BjTQiMfe4DJ1Wztmju0LdsjH-N7Sd5073J5s-yylhI8dqdEjqI5sb0eOaZ-2alpkC330eBJgBRUqVH9Ow6-ZYXbhQyFckxKoXzwlczzoi4nYBI7nE5AVZRH1OTPrqanCcegrQ8V6XdKjmf5ZXtOpXrWVPxsv39Cw8r3DHJsm-bziABuOyeIE0IQxuG8IFVilVqecaOLgcgWvvlB4qkJka2bYfkTbNUn4IpjSKTfPcCIcTULsy5TSPNUhLFxq3fb93C0hT68SnXJXvx8gmxPQYDh4D42cwId8KObkcJG0mvfnuAj5yAVmU77BZVEy_kBrry-AGsfLLqqkn11iqLz6nIWUzThd0QT1FtpSSK9L6ioWRKsa8gtaeKejTe2LU5Ka59I8ZNtZ5eUkUvI4IX_xTHO1qSfxn4EYe-Wzmatjtg7EEOPUI_ZuW6Z9735ciyyw0SAtZHo4xeJo-It0CEud0uLESTFfN8ZZr5Dti6_QjvP4AqXtA92AmdHSH2QLHayc8irX4GDACzHdlka1gzBVMEwodg5723KrNstU8PO-D__bD3l8VsyLnFim78REjqLyEEEm47lLtURvkBqVXJZFhWqdqAmN-XJDDWeCIV91zsw8KbFeQyIh8aamBRU6UpnKlB0eg8RrJY_8dsGeoBSxywww"
 }
+
+###product
+POST {{url_dev}}/product
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+x-client-id: 666ec362431e5208dad73631
+authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZlYzM2MjQzMWU1MjA4ZGFkNzM2MzEiLCJlbWFpbCI6InRlczIxM3QxQGdtYWlsLmNvbSIsImlhdCI6MTcxODcxNzIxMywiZXhwIjoxNzE4ODkwMDEzfQ.PqZZ4Ig9BIeUaOuCqZ88PfzNq0quyo2gim9L786eqpegbbtyzjJWHXLBc6V_rnv0uQE0PD1dD7ehkqLCHFnhaz0opWSV4VzqVgm7DBVdRCYEjXT94t7ByyItXm7ksUTIplAZDyFwX_0AL53P2jsia8QbIE9yVw9UxyVlg6DFMkqflgoQUKySSPJFKgkL7CvhDz0Tvp4rDLhNDFqgWCwmjxeAqPpuFt1Wvr1iRpqcm_hdKMPrWTIEa6kb_NntnoZn-INyoHDaBtnDdLuC3WeybgjK-K7i8uTc3syEfBlS-3BOb9eLfSfx1S8dbIwQKBxOXgw_OzDfcuwGU2IgEuLvqwZ_xV8egZfcm_0Mru9hHbIIqIGdaRPDxZzSiZlqAWNBr7IcgmGtEHF9ilww-7C2cc94ACrNJ90djUx8_C49T_AiX5kAEyOd3AigRD4k7gpev252oQGjxFPIXpdQBc4_i_iBzbhsIk3JBMMU19CwlladBDVkjo0-ZAz_XAq8-RYNKVfSJIvZTuq24mm-nrvIr0EXPjNY8GcPsSY7vJUjTmEwnz59c_LfCB6cSiBFY16bn6_YwUL359i_4UCKlVA9KuGVYSbVvBshM8Vm1l1c3cFJ69_wN3BNJkFrvHMv4okI8j_VogbT35KJu5EOANKlNN2l8ZWBQNaLAbWLrRsceXM
+
+{
+    "product_name": "product1",
+    "product_description": "product1 description",
+    "product_price": 100,
+    "product_shop": "666ec362431e5208dad73631",
+    "product_type": "Clothing",
+    "product_thumb": "product1.jpg",
+    "product_quantity": 10,
+    "product_attributes": {
+        "brand": "Levis",
+        "sive": "L",
+        "material": "cotton"
+    }
+}
