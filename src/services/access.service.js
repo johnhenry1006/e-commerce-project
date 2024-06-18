@@ -77,6 +77,43 @@ class AccessService {
         };
     };
 
+    static handlerRefreshTokenV2 = async ({ keyStore, user, refreshToken }) => {
+        const { userId, email } = user;
+
+        if (keyStore.refreshTokensUsed.includes(refreshToken)) {
+            await KeyTokenService.deleteKeyById(userId);
+            throw new ForbiddenError("Error: Token expired!");
+        }
+
+        if (keyStore.refreshToken !== refreshToken) {
+            throw new AuthFailureError("Shop not registered 3!");
+        }
+
+        const foundShop = await findByEmail({ email });
+        if (!foundShop) throw new AuthFailureError("Shop not registered 4!");
+
+        const tokens = await createTokenPair(
+            { userId, email },
+            keyStore.publicKey,
+            keyStore.privateKey
+        );
+
+        // update token
+        await holderToken.updateOne({
+            $set: {
+                refreshToken: tokens.refreshToken,
+            },
+            $addToSet: {
+                refreshTokensUsed: refreshToken, // add token used
+            },
+        });
+
+        return {
+            user,
+            tokens,
+        };
+    };
+
     /**
      * Logs out the user by removing the key from the key store.
      * @param {Object} keyStore - The key store object.
