@@ -82,9 +82,27 @@ const electronicSchema = new Schema(
     }
 );
 
+// define the product type = Books
+const bookSchema = new Schema(
+    {
+        brand: {
+            type: String,
+            required: true,
+        },
+        size: String,
+        material: String,
+        product_shop: { type: Schema.Types.ObjectId, ref: "Shop" },
+    },
+    {
+        timestamps: true,
+        collection: "Books",
+    }
+);
+
 //Export the model
 module.exports = {
     product: model(DOCUMENT_NAME, productSchema),
     clothing: model("Clothing", clothingSchema),
     electronic: model("Electronic", electronicSchema),
+    book: model("Book", bookSchema),
 };
