@@ -12,6 +12,8 @@ npm i lodash --save
 
 npm i jsonwebtoken --save
 
+npm i slugify --save
+
 npm i morgan --save-dev
 
 npm i helmet --save-dev
