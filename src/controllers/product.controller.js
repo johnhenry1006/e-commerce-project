@@ -5,12 +5,11 @@ const ProductService = require("../services/product.service");
 const ProductServiceV2 = require("../services/product.service.xxx");
 
 class ProductController {
-    
     /**
-     * 
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
+     *
+     * @param {*} req
+     * @param {*} res
+     * @param {*} next
      */
     createProduct = async (req, res, next) => {
         // new SuccessResponse({
@@ -36,11 +35,25 @@ class ProductController {
         }).send(res);
     };
 
+    updateProduct = async (req, res, next) => {
+        new SuccessResponse({
+            message: "Product updated successfully",
+            metadata: await ProductServiceV2.updateProduct(
+                req.body.product_type,
+                req.params.productId,
+                {
+                    ...req.body,
+                    product_shop: req.user.userId,
+                }
+            ),
+        }).send(res);
+    };
+
     /**
-     * 
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
+     *
+     * @param {*} req
+     * @param {*} res
+     * @param {*} next
      */
     publishProductByShop = async (req, res, next) => {
         new SuccessResponse({
@@ -53,10 +66,10 @@ class ProductController {
     };
 
     /**
-     * 
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
+     *
+     * @param {*} req
+     * @param {*} res
+     * @param {*} next
      */
     unPublishProductByShop = async (req, res, next) => {
         new SuccessResponse({
@@ -69,10 +82,10 @@ class ProductController {
     };
 
     /**
-     * 
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
+     *
+     * @param {*} req
+     * @param {*} res
+     * @param {*} next
      */
     getAllDraftsForShop = async (req, res, next) => {
         new SuccessResponse({
@@ -84,7 +97,7 @@ class ProductController {
     };
 
     /**
-     * 
+     *
      */
     getAllPublishForShop = async (req, res, next) => {
         new SuccessResponse({
@@ -96,7 +109,7 @@ class ProductController {
     };
 
     /**
-     * 
+     *
      */
     getListSearchProduct = async (req, res, next) => {
         new SuccessResponse({
@@ -106,7 +119,7 @@ class ProductController {
     };
 
     /**
-     * 
+     *
      */
     findAllProducts = async (req, res, next) => {
         new SuccessResponse({
@@ -116,7 +129,7 @@ class ProductController {
     };
 
     /**
-     * 
+     *
      */
     findProduct = async (req, res, next) => {
         new SuccessResponse({

@@ -15,7 +15,9 @@ const {
     searchProductByUser,
     findAllProducts,
     findProduct,
+    updateProductById,
 } = require("../models/repositories/product.repo");
+const { removeUndefinedObject, updateNestedObjectParser } = require("../utils");
 
 // Define factory class to create product
 class ProductFactory {
@@ -30,9 +32,6 @@ class ProductFactory {
 
     /**
      *
-     * @param {*} type
-     * @param {*} payload
-     * @returns
      */
     static async createProduct(type, payload) {
         const productClass = ProductFactory.productRegistry[type];
@@ -45,17 +44,14 @@ class ProductFactory {
 
     /**
      *
-     * @param {*} type
-     * @param {*} payload
-     * @returns
      */
-    static async updateProduct(type, payload) {
+    static async updateProduct(type, productId, payload) {
         const productClass = ProductFactory.productRegistry[type];
         if (!productClass) {
             throw new BadRequestError(`Invalid product type ${type}`);
         }
 
-        return new productClass(payload).createProduct();
+        return new productClass(payload).updateProduct(productId);
     }
 
     // PUT
@@ -75,7 +71,7 @@ class ProductFactory {
     }
 
     /**
-     * 
+     *
      */
     static async findAllPublishForShop({ product_shop, limit = 50, skip = 0 }) {
         const query = { product_shop, isPublished: true };
@@ -84,7 +80,7 @@ class ProductFactory {
     }
 
     /**
-     * 
+     *
      */
     static async searchProducts({ keySearch }) {
         return await searchProductByUser({ keySearch });
@@ -142,8 +138,17 @@ class Product {
     }
 
     // create new product
-    async createProduct(product_id) {
-        return await product.create({ ...this, _id: product_id });
+    async createProduct(productId) {
+        return await product.create({ ...this, _id: productId });
+    }
+
+    // update product
+    async updateProduct(productId, bodyUpdate) {
+        return await updateProductById({
+            productId,
+            bodyUpdate,
+            model: product,
+        });
     }
 }
 
@@ -165,6 +170,26 @@ class Clothing extends Product {
         }
 
         return newProduct;
+    }
+
+    async updateProduct(productId) {
+        const objectParams = this;
+
+        if (objectParams.product_attributes) {
+            // update child
+            await updateProductById({
+                productId,
+                bodyUpdate: objectParams,
+                model: clothing,
+            });
+        }
+
+        const updatedProduct = await super.updateProduct(
+            productId,
+            objectParams
+        );
+
+        return updatedProduct;
     }
 }
 
@@ -211,6 +236,32 @@ class Book extends Product {
         }
 
         return newProduct;
+    }
+
+    async updateProduct(productId) {
+        // console.log("[1]::", this);
+
+        const objectParams = removeUndefinedObject(this);
+
+        // console.log("[2]::", objectParams);
+
+        if (objectParams.product_attributes) {
+            // update child
+            await updateProductById({
+                productId,
+                bodyUpdate: updateNestedObjectParser(
+                    objectParams.product_attributes
+                ),
+                model: book,
+            });
+        }
+
+        const updatedProduct = await super.updateProduct(
+            productId,
+            updateNestedObjectParser(objectParams)
+        );
+
+        return updatedProduct;
     }
 }
 
