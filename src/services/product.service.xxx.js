@@ -7,6 +7,7 @@ const {
     electronic,
     book,
 } = require("../models/product.model");
+const { insertInventory } = require("../models/repositories/inventory.repo");
 const {
     findAllDraftsForShop,
     publishProductByShop,
@@ -139,7 +140,18 @@ class Product {
 
     // create new product
     async createProduct(productId) {
-        return await product.create({ ...this, _id: productId });
+        const newProduct = await product.create({ ...this, _id: productId });
+
+        if (newProduct) {
+            // add product_stock inventory collection
+            await insertInventory({
+                productId: newProduct._id,
+                shopId: this.product_shop,
+                stock: this.product_quantity,
+            });
+        }
+
+        return newProduct;
     }
 
     // update product
@@ -173,20 +185,26 @@ class Clothing extends Product {
     }
 
     async updateProduct(productId) {
-        const objectParams = this;
+        // console.log("[1]::", this);
+
+        const objectParams = removeUndefinedObject(this);
+
+        // console.log("[2]::", objectParams);
 
         if (objectParams.product_attributes) {
             // update child
             await updateProductById({
                 productId,
-                bodyUpdate: objectParams,
+                bodyUpdate: updateNestedObjectParser(
+                    objectParams.product_attributes
+                ),
                 model: clothing,
             });
         }
 
         const updatedProduct = await super.updateProduct(
             productId,
-            objectParams
+            updateNestedObjectParser(objectParams)
         );
 
         return updatedProduct;
@@ -213,6 +231,32 @@ class Electronic extends Product {
         }
 
         return newProduct;
+    }
+
+    async updateProduct(productId) {
+        // console.log("[1]::", this);
+
+        const objectParams = removeUndefinedObject(this);
+
+        // console.log("[2]::", objectParams);
+
+        if (objectParams.product_attributes) {
+            // update child
+            await updateProductById({
+                productId,
+                bodyUpdate: updateNestedObjectParser(
+                    objectParams.product_attributes
+                ),
+                model: electronic,
+            });
+        }
+
+        const updatedProduct = await super.updateProduct(
+            productId,
+            updateNestedObjectParser(objectParams)
+        );
+
+        return updatedProduct;
     }
 }
 
