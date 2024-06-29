@@ -46,7 +46,12 @@ const findAllDiscountCodesSelect = async ({
     return documents;
 };
 
+const checkDiscountCodeExists = async ({ model, filter }) => {
+    return await model.findOne(filter).lean();
+};
+
 module.exports = {
     findAllDiscountCodesUnselect,
     findAllDiscountCodesSelect,
+    checkDiscountCodeExists,
 };

@@ -1,0 +1,104 @@
+@url_dev=http://localhost:5000/v1/api
+
+###login
+POST {{url_dev}}/shop/login
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+
+{
+    "email": "tes213t1@gmail.com",
+    "password": "abc123"
+}
+
+###create_discount1
+POST {{url_dev}}/discount
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+x-client-id: 666ec362431e5208dad73631
+authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZlYzM2MjQzMWU1MjA4ZGFkNzM2MzEiLCJlbWFpbCI6InRlczIxM3QxQGdtYWlsLmNvbSIsImlhdCI6MTcxOTY3MzI5NCwiZXhwIjoxNzE5ODQ2MDk0fQ.ukJGjjX__gbDdW9DAas_cjQj_PxIavyzrw2UVfdmOwWvUVBOQk77Yr3-EoCUbXS4eqmrO3GcDHZJpvprYH-FNoqSO8n8vo1C-ErFYGeD4BoOJzeJdtXjokqmED0ctY2eDCnA_njMku91Yn3u-kUoRlm_MXhR85Iwn3zkhRgLQuBhr5dyjRHtxufdYl1WxoeHPsoFV04wzBuENta---oI1vHfgHKiyYqfr_RGD-m7oRKNGREV4tFEhAs1Ec9GhNmXtzlIz5R8nRVm_GU_KMW9q50CBGaPzVwwmgbUMQLDAWJxrQ-d8SOpAeLlQXIX8kmtDIQO5emDiiOjNoIViBP_U_5IVCKPSZrvNXqMK41hI4y4WRAD2GNxn4Irmuh_FucLAaGNvD488Ahb8Mb5-_gQzKLemvmNP74u7vEPHg8rd3fPKHFJQEoKS_vWA9QYasbF_JMWIpeVggMlz2R3dCcepq0S8vm-26o8REsjrjSZvB7Mgm-u-mDDRa1JsY7unXcQhlgva2yRv3SpKeO1GqdCUVjqspwRHJZknl02S5zT19luvE1O06cIzb0qJxN2qVxNWm5ODh_fQsEfCjV8oK5-BiKS9htSckdOnbldLJJpEXg2KBFISRqQ2y7dde2WGpBcmnXqiUeI1pAbpCqkFG1zJhnLG9128p0LZS3XfNKqdoQ
+
+{
+    "name": "discount1",
+    "description": "discount1 description",
+    "type": "percentage",
+    "value": 30000,
+    "max_value": 30000,
+    "code": "shop-1111",
+    "start_date": "2024-02-01",
+    "end_date": "2025-08-01",
+    "max_uses": 100,
+    "uses_count": 0,
+    "users_used": [],
+    "max_uses_per_user": 1,
+    "min_order_value": 10000,
+    "create_by": {},
+    "is_active": true,
+    "applies_to": "specific_products",
+    "product_ids": ["6671acd122a6418d70d9c66d", "6671ace222a6418d70d9c679"]
+}
+
+###create_discount2
+POST {{url_dev}}/discount
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+x-client-id: 666ec362431e5208dad73631
+authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZlYzM2MjQzMWU1MjA4ZGFkNzM2MzEiLCJlbWFpbCI6InRlczIxM3QxQGdtYWlsLmNvbSIsImlhdCI6MTcxOTY3MzI5NCwiZXhwIjoxNzE5ODQ2MDk0fQ.ukJGjjX__gbDdW9DAas_cjQj_PxIavyzrw2UVfdmOwWvUVBOQk77Yr3-EoCUbXS4eqmrO3GcDHZJpvprYH-FNoqSO8n8vo1C-ErFYGeD4BoOJzeJdtXjokqmED0ctY2eDCnA_njMku91Yn3u-kUoRlm_MXhR85Iwn3zkhRgLQuBhr5dyjRHtxufdYl1WxoeHPsoFV04wzBuENta---oI1vHfgHKiyYqfr_RGD-m7oRKNGREV4tFEhAs1Ec9GhNmXtzlIz5R8nRVm_GU_KMW9q50CBGaPzVwwmgbUMQLDAWJxrQ-d8SOpAeLlQXIX8kmtDIQO5emDiiOjNoIViBP_U_5IVCKPSZrvNXqMK41hI4y4WRAD2GNxn4Irmuh_FucLAaGNvD488Ahb8Mb5-_gQzKLemvmNP74u7vEPHg8rd3fPKHFJQEoKS_vWA9QYasbF_JMWIpeVggMlz2R3dCcepq0S8vm-26o8REsjrjSZvB7Mgm-u-mDDRa1JsY7unXcQhlgva2yRv3SpKeO1GqdCUVjqspwRHJZknl02S5zT19luvE1O06cIzb0qJxN2qVxNWm5ODh_fQsEfCjV8oK5-BiKS9htSckdOnbldLJJpEXg2KBFISRqQ2y7dde2WGpBcmnXqiUeI1pAbpCqkFG1zJhnLG9128p0LZS3XfNKqdoQ
+
+{
+    "name": "discount2 percentage",
+    "description": "discount1 description",
+    "type": "percentage",
+    "value": 10,
+    "max_value": 30000,
+    "code": "shop-1133",
+    "start_date": "2024-02-01",
+    "end_date": "2025-08-01",
+    "max_uses": 100,
+    "uses_count": 0,
+    "users_used": [],
+    "max_uses_per_user": 1,
+    "min_order_value": 10000,
+    "create_by": {},
+    "is_active": true,
+    "applies_to": "all_products",
+    "product_ids": ["6671acd122a6418d70d9c66d", "6671ace222a6418d70d9c679"]
+}
+
+
+###get_discount
+GET {{url_dev}}/discount?limit=50&page=1
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+x-client-id: 666ec362431e5208dad73631
+authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZlYzM2MjQzMWU1MjA4ZGFkNzM2MzEiLCJlbWFpbCI6InRlczIxM3QxQGdtYWlsLmNvbSIsImlhdCI6MTcxOTY3MzI5NCwiZXhwIjoxNzE5ODQ2MDk0fQ.ukJGjjX__gbDdW9DAas_cjQj_PxIavyzrw2UVfdmOwWvUVBOQk77Yr3-EoCUbXS4eqmrO3GcDHZJpvprYH-FNoqSO8n8vo1C-ErFYGeD4BoOJzeJdtXjokqmED0ctY2eDCnA_njMku91Yn3u-kUoRlm_MXhR85Iwn3zkhRgLQuBhr5dyjRHtxufdYl1WxoeHPsoFV04wzBuENta---oI1vHfgHKiyYqfr_RGD-m7oRKNGREV4tFEhAs1Ec9GhNmXtzlIz5R8nRVm_GU_KMW9q50CBGaPzVwwmgbUMQLDAWJxrQ-d8SOpAeLlQXIX8kmtDIQO5emDiiOjNoIViBP_U_5IVCKPSZrvNXqMK41hI4y4WRAD2GNxn4Irmuh_FucLAaGNvD488Ahb8Mb5-_gQzKLemvmNP74u7vEPHg8rd3fPKHFJQEoKS_vWA9QYasbF_JMWIpeVggMlz2R3dCcepq0S8vm-26o8REsjrjSZvB7Mgm-u-mDDRa1JsY7unXcQhlgva2yRv3SpKeO1GqdCUVjqspwRHJZknl02S5zT19luvE1O06cIzb0qJxN2qVxNWm5ODh_fQsEfCjV8oK5-BiKS9htSckdOnbldLJJpEXg2KBFISRqQ2y7dde2WGpBcmnXqiUeI1pAbpCqkFG1zJhnLG9128p0LZS3XfNKqdoQ
+
+
+###discount_amount
+POST {{url_dev}}/discount/amount
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+x-client-id: 666ec362431e5208dad73631
+authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZlYzM2MjQzMWU1MjA4ZGFkNzM2MzEiLCJlbWFpbCI6InRlczIxM3QxQGdtYWlsLmNvbSIsImlhdCI6MTcxOTY3MzI5NCwiZXhwIjoxNzE5ODQ2MDk0fQ.ukJGjjX__gbDdW9DAas_cjQj_PxIavyzrw2UVfdmOwWvUVBOQk77Yr3-EoCUbXS4eqmrO3GcDHZJpvprYH-FNoqSO8n8vo1C-ErFYGeD4BoOJzeJdtXjokqmED0ctY2eDCnA_njMku91Yn3u-kUoRlm_MXhR85Iwn3zkhRgLQuBhr5dyjRHtxufdYl1WxoeHPsoFV04wzBuENta---oI1vHfgHKiyYqfr_RGD-m7oRKNGREV4tFEhAs1Ec9GhNmXtzlIz5R8nRVm_GU_KMW9q50CBGaPzVwwmgbUMQLDAWJxrQ-d8SOpAeLlQXIX8kmtDIQO5emDiiOjNoIViBP_U_5IVCKPSZrvNXqMK41hI4y4WRAD2GNxn4Irmuh_FucLAaGNvD488Ahb8Mb5-_gQzKLemvmNP74u7vEPHg8rd3fPKHFJQEoKS_vWA9QYasbF_JMWIpeVggMlz2R3dCcepq0S8vm-26o8REsjrjSZvB7Mgm-u-mDDRa1JsY7unXcQhlgva2yRv3SpKeO1GqdCUVjqspwRHJZknl02S5zT19luvE1O06cIzb0qJxN2qVxNWm5ODh_fQsEfCjV8oK5-BiKS9htSckdOnbldLJJpEXg2KBFISRqQ2y7dde2WGpBcmnXqiUeI1pAbpCqkFG1zJhnLG9128p0LZS3XfNKqdoQ
+
+{
+    "codeId": "shop-1133",
+    "userId": 2,
+    "shopId": "666ec362431e5208dad73631",
+    "products": [
+        {
+            "productId": "6671acd122a6418d70d9c66d",
+            "quantity": 5,
+            "price": 12000
+        }
+    ]
+}
+
+
+###discount_list_product_code
+GET {{url_dev}}/discount/list_product_code?code=shop-1111&shopId=666ec362431e5208dad73631&limit=50&page=1
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+# x-client-id: 666ec362431e5208dad73631
+# authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjZlYzM2MjQzMWU1MjA4ZGFkNzM2MzEiLCJlbWFpbCI6InRlczIxM3QxQGdtYWlsLmNvbSIsImlhdCI6MTcxOTY3MzI5NCwiZXhwIjoxNzE5ODQ2MDk0fQ.ukJGjjX__gbDdW9DAas_cjQj_PxIavyzrw2UVfdmOwWvUVBOQk77Yr3-EoCUbXS4eqmrO3GcDHZJpvprYH-FNoqSO8n8vo1C-ErFYGeD4BoOJzeJdtXjokqmED0ctY2eDCnA_njMku91Yn3u-kUoRlm_MXhR85Iwn3zkhRgLQuBhr5dyjRHtxufdYl1WxoeHPsoFV04wzBuENta---oI1vHfgHKiyYqfr_RGD-m7oRKNGREV4tFEhAs1Ec9GhNmXtzlIz5R8nRVm_GU_KMW9q50CBGaPzVwwmgbUMQLDAWJxrQ-d8SOpAeLlQXIX8kmtDIQO5emDiiOjNoIViBP_U_5IVCKPSZrvNXqMK41hI4y4WRAD2GNxn4Irmuh_FucLAaGNvD488Ahb8Mb5-_gQzKLemvmNP74u7vEPHg8rd3fPKHFJQEoKS_vWA9QYasbF_JMWIpeVggMlz2R3dCcepq0S8vm-26o8REsjrjSZvB7Mgm-u-mDDRa1JsY7unXcQhlgva2yRv3SpKeO1GqdCUVjqspwRHJZknl02S5zT19luvE1O06cIzb0qJxN2qVxNWm5ODh_fQsEfCjV8oK5-BiKS9htSckdOnbldLJJpEXg2KBFISRqQ2y7dde2WGpBcmnXqiUeI1pAbpCqkFG1zJhnLG9128p0LZS3XfNKqdoQ
+
+

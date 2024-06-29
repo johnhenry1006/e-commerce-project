@@ -7,15 +7,16 @@ const { convertToObjectIdMongoDb } = require("../utils");
 const { findAllProducts } = require("../models/repositories/product.repo");
 const {
     findAllDiscountCodesUnselect,
+    checkDiscountCodeExists,
 } = require("../models/repositories/discount.repo");
 
 /**
  * Discount Service
- * 1 - Generate discount code [Shop | Admin]
- * 2 - Get discount amount [User]
- * 3 - Get all discount codes [User | Shop]
- * 4 - Verify discount code [User]
- * 5 - Delete discount code [Shop | Admin]
+ * 1 - Generator discount code [Shop | Admin]
+ * 2 - Get all discount codes [User | Shop]
+ * 3 - Get all product by discount code [User]
+ * 4 - Get discount amount [User]
+ * 5 - Delete discount code [Admin | Shop]
  * 6 - Cancel discount code [User]
  */
 
@@ -165,6 +166,145 @@ class DiscountService {
         });
 
         return discounts;
+    }
+
+    /*
+        Apply discount code
+        products = [
+            {
+                productId: "60f7a5a8d1f9b4c6b2b9d3a1",
+                shopId: "60f7a5a8d1f9b4c6b2b9d3a1",
+                quantity: 2
+                name: "product 1",
+                price: 100,
+            },
+            {
+                productId: "60f7a5a8d1f9b4c6b2b9d3a2",
+                shopId: "60f7a5a8d1f9b4c6b2b9d3a1",
+                quantity: 1
+                name: "product 2",
+                price: 200,
+            }
+        ]
+    */
+    static async getDiscountAmount({ codeId, userId, shopId, products }) {
+        console.log("getDiscountAmount", { codeId, userId, shopId, products });
+        // create index for discount code
+        const foundDiscount = await checkDiscountCodeExists({
+            model: discount,
+            filter: {
+                discount_code: codeId,
+                discount_shopId: shopId,
+                // discount_shopId: convertToObjectIdMongoDb(shopId),
+            },
+        });
+
+        if (!foundDiscount) {
+            throw new NotFoundError("Discount not found");
+        }
+
+        const {
+            discount_is_active,
+            discount_max_uses,
+            discount_start_date,
+            discount_end_date,
+            discount_min_order_value,
+            discount_max_uses_per_user,
+            discount_users_used,
+            discount_value,
+            discount_type,
+        } = foundDiscount;
+
+        if (!discount_is_active) throw new NotFoundError("Discount expired!");
+
+        if (!discount_max_uses) throw new NotFoundError("Discount are out!");
+
+        if (
+            new Date() < new Date(discount_start_date) ||
+            new Date() > new Date(discount_end_date)
+        ) {
+            throw new NotFoundError("Discount expired!");
+        }
+
+        // check discount the value min order
+        let totalOrder = 0;
+        if (discount_min_order_value > 0) {
+            // Get total order
+            totalOrder = products.reduce((acc, { price, quantity }) => {
+                return acc + price * quantity;
+            }, 0);
+
+            if (totalOrder < discount_min_order_value) {
+                throw new NotFoundError(
+                    `Minimum order value is ${discount_min_order_value}`
+                );
+            }
+        }
+
+        if (discount_max_uses_per_user > 0) {
+            // Check if user use discount code
+            const userUsedDiscount = discount_users_used.find(
+                (user) => user.userId === userId
+            );
+
+            if (userUsedDiscount) {
+                // Check if user used discount code
+                // ...
+            }
+        }
+
+        // check discount the value fixed_amount or percentage
+        const amount =
+            discount_type === "fixed_amount"
+                ? discount_value
+                : totalOrder * (discount_value / 100);
+
+        return {
+            totalOrder,
+            discount: amount,
+            totalPrice: totalOrder - amount,
+        };
+    }
+
+    static async deleteDiscountCode({ codeId, shopId }) {
+        const deleted = await discount.findOneAndDelete({
+            discount_code: codeId,
+            discount_shopId: shopId,
+            // discount_shopId: convertToObjectIdMongoDb(shopId),
+        });
+
+        return deleted;
+    }
+
+    /*
+        Cancel discount code
+        userId = "60f7a5a8d1f9b4c6b2b9d3a1"
+    */
+    static async cancelDiscountCode({ codeId, shopId, userId }) {
+        const foundDiscount = await checkDiscountCodeExists({
+            model: discount,
+            filter: {
+                discount_code: codeId,
+                discount_shopId: shopId,
+                // discount_shopId: convertToObjectIdMongoDb(shopId),
+            },
+        });
+
+        if (!foundDiscount) {
+            throw new NotFoundError("Discount not found");
+        }
+
+        const result = await discount.findByIdAndDelete(foundDiscount._id, {
+            $pull: {
+                discount_users_used: userId,
+            },
+            $inc: {
+                discount_max_uses: 1,
+                discount_uses_count: -1,
+            },
+        });
+
+        return result;
     }
 }
 
