@@ -10,14 +10,14 @@ const {
     checkDiscountCodeExists,
 } = require("../models/repositories/discount.repo");
 
-/**
- * Discount Service
- * 1 - Generator discount code [Shop | Admin]
- * 2 - Get all discount codes [User | Shop]
- * 3 - Get all product by discount code [User]
- * 4 - Get discount amount [User]
- * 5 - Delete discount code [Admin | Shop]
- * 6 - Cancel discount code [User]
+/*
+    Key features: Discount Service
+        1 - Generator discount code [Shop | Admin]
+        2 - Get all discount codes [User | Shop]
+        3 - Get all product by discount code [User]
+        4 - Get discount amount [User]
+        5 - Delete discount code [Admin | Shop]
+        6 - Cancel discount code [User]
  */
 
 class DiscountService {
