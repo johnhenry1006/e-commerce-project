@@ -9,3 +9,81 @@ x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
     "email": "tes213t1@gmail.com",
     "password": "abc123"
 }
+
+
+###add_to_cart
+POST {{url_dev}}/cart
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+
+{
+    "userId": 11,
+    "product": {
+        "productId": "6671acd122a6418d70d9c66d",
+        "shopId": "666ec362431e5208dad73631",
+        "quantity": 4,
+        "name": "product2",
+        "price": 112
+    }
+}
+
+
+###add_to_cart 2
+POST {{url_dev}}/cart
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+
+{
+    "userId": 11,
+    "product": {
+        "productId": "6671ace222a6418d70d9c679",
+        "shopId": "666ec362431e5208dad73631",
+        "quantity": 5,
+        "name": "product1",
+        "price": 111
+    }
+}
+
+
+###delete_from_cart
+DELETE {{url_dev}}/cart
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+
+{
+    "userId": 11,
+    "productId": "6671acd122a6418d70d9c66d"
+}
+
+
+###get_list_cart
+GET {{url_dev}}/cart?userId=11
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+
+
+
+
+###update_to_cart
+POST {{url_dev}}/cart/update
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+
+{
+    "userId": 11,
+    "shop_order_ids": [
+        {
+            "shopId": "666ec362431e5208dad73631",
+            "item_products": [
+                {
+                    "shopId": "666ec362431e5208dad73631",
+                    "productId": "6671ace222a6418d70d9c679",
+                    "price": 111,
+                    "quantity": 5,
+                    "old_quantity": 9
+                }
+            ],
+            "version": 12
+        }
+    ]
+}
