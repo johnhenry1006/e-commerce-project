@@ -20,6 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 // init db
 require("./dbs/init.mongodb");
 
+const { initRedis } = require("./dbs/init.redis");
+initRedis();
+
 // const { checkOverload } = require("./helpers/check.connect");
 // checkOverload();
 

@@ -5,7 +5,9 @@ const { promisify } = require("util");
 const {
     reservationInventory,
 } = require("../models/repositories/inventory.repo");
-const redisClient = redis.createClient();
+
+const { getRedis } = require("../dbs/init.redis");
+const { instanceConnect: redisClient } = getRedis();
 
 const pExpire = promisify(redisClient.pExpire).bind(redisClient);
 const setNxAsync = promisify(redisClient.setEx).bind(redisClient);
