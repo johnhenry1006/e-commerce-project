@@ -84,7 +84,7 @@ class CartService {
             },
         ]
     */
-    static async updateCart({ userId, shop_order_ids = [] }) {
+    static async addToCartV2({ userId, shop_order_ids = [] }) {
         const { productId, quantity, old_quantity } =
             shop_order_ids[0]?.item_products[0] || {};
 

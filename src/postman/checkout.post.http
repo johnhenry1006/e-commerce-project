@@ -1,0 +1,51 @@
+@url_dev=http://localhost:5000/v1/api
+
+###login
+POST {{url_dev}}/shop/login
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+
+{
+    "email": "tes213t1@gmail.com",
+    "password": "abc123"
+}
+
+###checkout_preview
+POST {{url_dev}}/checkout/preview
+Content-Type: application/json
+x-api-key: 62bf76194fcbbdd7a01ca99f199a0a4ba82c0c8fc5e91a2bd80061f7b4a33b80
+
+{
+    "cartId": "668136ae410c2eeea80df790",
+    "userId": 1001,
+    "shop_order_ids": [
+        {
+            "shopId": "666ec362431e5208dad73631",
+            "shop_discounts": [],
+            "item_products": [
+                {
+                    "productId": "668a1b0274e8530822c30834",
+                    "price": 111,
+                    "quantity": 5
+                }
+            ]
+        },
+        {
+            "shopId": "666ec362431e5208dad73631",
+            "shop_discounts": [
+                {
+                    "discountId": "668a1c9474e8530822c308b1",
+                    "codeId": "shop-3333",
+                    "shopId": "666ec362431e5208dad73631"
+                }
+            ],
+            "item_products": [
+                {
+                    "productId": "668a1a1d74e8530822c3081c",
+                    "price": 11,
+                    "quantity": 5
+                }
+            ]
+        }
+    ]
+}
