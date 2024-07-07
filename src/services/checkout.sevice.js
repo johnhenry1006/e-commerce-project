@@ -1,9 +1,11 @@
 "use strict";
 
 const { BadRequestError } = require("../core/error.response");
+const { order } = require("../models/order.model");
 const { findCartById } = require("../models/repositories/cart.repo");
 const { checkProductByServer } = require("../models/repositories/product.repo");
 const DiscountService = require("./discount.service");
+const { acquireLock, releaseLock } = require("./redis.service");
 
 class CheckoutService {
     // login and without login
@@ -43,7 +45,7 @@ class CheckoutService {
             ]
         }
     */
-    static async checkoutOrder({ userId, cartId, shop_order_ids }) {
+    static async checkoutReview({ userId, cartId, shop_order_ids }) {
         // check cartId
         const foundCart = await findCartById(cartId);
         if (!foundCart) {
@@ -125,6 +127,85 @@ class CheckoutService {
             checkout_order,
         };
     }
+
+    // order
+    static async orderByUser({
+        shop_order_ids,
+        cartId,
+        userId,
+        user_address = {},
+        user_payment = {},
+    }) {
+        const { shop_order_ids_new, checkout_order } =
+            await CheckoutService.checkoutReview({
+                userId,
+                cartId,
+                shop_order_ids,
+            });
+
+        // check product available
+        const products = shop_order_ids_new.flatMap(
+            (order) => order.item_products
+        );
+        console.log("[1]::", products);
+
+        let acquireProduct = [];
+
+        for (let i = 0; i < products.length; i++) {
+            const { productId, quantity } = products[i];
+
+            const keyLock = await acquireLock(productId, quantity, cartId);
+            acquireProduct.push(keyLock ? true : false);
+
+            if (keyLock) {
+                await releaseLock(keyLock);
+            }
+        }
+
+        // check if it has a product in store
+        if (acquireProduct.includes(false)) {
+            throw new BadRequestError("product is updated, please try again");
+        }
+
+        const newOrder = await order.create({
+            order_userId: userId,
+            order_checkout: checkout_order,
+            order_shipping: user_address,
+            order_payment: user_payment,
+            order_products: shop_order_ids_new,
+        });
+
+        // Case:  order thanh cong, remove product from cart
+        if (newOrder) {
+            // remove product in my cart
+        }
+
+        return newOrder;
+    }
+
+    /*
+        1> Query Orders [Users]
+    */
+   static async getOrdersByUser() {
+   }
+
+    /*
+        1> Query Order Using Id [Users]
+    */
+   static async getOneOrderByUser() {
+   }
+
+    /*
+        1> Cancel Order [Users]
+    */
+   static async cancelOrderByUser() {
+   }
+
+    /*
+        1> Update Order Status [Shop | Admin]
+    */
+   static async updateOrderStatusByShop() {
+   }
 }
 
 module.exports = CheckoutService;
